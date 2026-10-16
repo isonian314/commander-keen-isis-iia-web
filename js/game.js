@@ -145,6 +145,21 @@ class Game {
     this.customLevel = null;
   }
 
+  // Options menu Sound / Music switches
+  toggleSound() {
+    this.sound = !this.sound;
+    Sound.sfxOn = this.sound;
+    Sound.applyVolume();
+    if (this.sound) playSound(SFX_KEEN_SWITCH);
+  }
+
+  toggleMusic() {
+    this.music = !this.music;
+    if (this.music) playSound(SFX_KEEN_SWITCH);
+    Sound.musicOn = this.music;
+    Sound.applyVolume();
+  }
+
   wait(ms) {
     this.waitUntil = Math.max(this.waitUntil, performance.now() + ms);
   }

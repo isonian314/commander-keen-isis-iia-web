@@ -67,6 +67,7 @@ const Input = {
   padHeld: new Set(),     // actions held on the gamepad
   queue: [],              // key presses since the last frame: { code, actions }
   enabled: true,
+  inView: true,           // false while the game is scrolled out of view, so the page gets the keys
 
   actionsFor(code) {
     const out = [];
@@ -86,6 +87,12 @@ const Input = {
     return { up: this.isHeld('up'), down: this.isHeld('down'), left: this.isHeld('left'), right: this.isHeld('right'), jump: this.isHeld('jump') };
   },
 
+  // A single press of an action from outside the keyboard (on-page buttons)
+  press(action) {
+    Sound.unlock();
+    this.queue.push({ code: 'Button:' + action, actions: [action] });
+  },
+
   take() {
     const q = this.queue;
     this.queue = [];
@@ -100,7 +107,7 @@ const Input = {
 
   attach(target) {
     target.addEventListener('keydown', (e) => {
-      if (!this.enabled) return;
+      if (!this.enabled || !this.inView) return;
       const actions = this.actionsFor(e.code);
       if (actions.length || /^F\d+$/.test(e.code) || e.code === 'Space') e.preventDefault();
       Sound.unlock();

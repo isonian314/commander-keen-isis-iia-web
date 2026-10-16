@@ -509,6 +509,10 @@ function setPaused(p) {
   Input.clear();
 }
 
+function syncPause() {
+  setPaused(document.hidden || panelOpen() || !Input.inView);
+}
+
 function layout() {
   const stage = document.getElementById('stage');
   const w = stage.clientWidth, h = stage.clientHeight;
@@ -525,10 +529,15 @@ function keyLabel(code) {
 
 function initShell() {
   window.addEventListener('resize', layout);
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) setPaused(true);
-    else if (!panelOpen()) setPaused(false);
-  });
+  document.addEventListener('visibilitychange', syncPause);
+
+  // When the page has more below the game, scrolling the game mostly out of view pauses it and hands the keys back to the page
+  if (window.IntersectionObserver) {
+    new IntersectionObserver(([entry]) => {
+      Input.inView = entry.intersectionRatio >= 0.5;
+      syncPause();
+    }, { threshold: [0, 0.5, 1] }).observe(canvas);
+  }
 
   const file = document.getElementById('customFile');
   file.addEventListener('change', async () => {
@@ -547,14 +556,14 @@ function initShell() {
     renderSettings();
     panel.hidden = false;
     Input.enabled = false;
-    setPaused(true);
+    syncPause();
   };
   const close = () => {
     panel.hidden = true;
     Input.enabled = true;
     Settings.save();
-    setPaused(document.hidden);
-    canvas.focus();
+    syncPause();
+    canvas.focus({ preventScroll: true });
   };
   document.getElementById('gear').addEventListener('click', () => (panel.hidden ? open() : close()));
   document.getElementById('closeSettings').addEventListener('click', close);
@@ -603,7 +612,7 @@ function initShell() {
     renderSettings();
   });
 
-  canvas.focus();
+  canvas.focus({ preventScroll: true });
 }
 
 function panelOpen() {

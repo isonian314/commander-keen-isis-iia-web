@@ -114,15 +114,9 @@ class Menu {
         if (this.menuOptionsIndex === 0) {
           app.chooseCustomLevel();
         } else if (this.menuOptionsIndex === 1) {
-          game.sound = !game.sound;
-          Sound.sfxOn = game.sound;
-          Sound.applyVolume();
-          if (game.sound) playSound(SFX_KEEN_SWITCH);
+          game.toggleSound();
         } else if (this.menuOptionsIndex === 2) {
-          game.music = !game.music;
-          if (game.music) playSound(SFX_KEEN_SWITCH);
-          Sound.musicOn = game.music;
-          Sound.applyVolume();
+          game.toggleMusic();
         } else if (this.menuOptionsIndex === 3) {
           game.SAVED_DATA = clearSaveData();
           playSound(SFX_KEEN_SWITCH);

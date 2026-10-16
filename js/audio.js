@@ -10,8 +10,10 @@ const SFX_FILES = [
   'wx_rain', 'wx_lightning', 'level_start', 'level_finish', 'item_points_k4', 'enemy_foog_jump', 'enemy_splat',
 ].map((n) => n + '.ogg');
 
+// Resolved against this script rather than the page, so pages in subfolders (fullscreen/) find it too
+const MUSIC_BASE = new URL('../music/', document.currentScript.src);
 const MUSIC = ['level01', 'level02', 'level03', 'level04', 'level05', 'level06', 'level07', 'level08', 'level09',
-  'level0x', 'level0x', 'level0x', 'level0x', 'level0x', 'level0x', 'level0x'].map((n) => 'music/' + n + '.ogg');
+  'level0x', 'level0x', 'level0x', 'level0x', 'level0x', 'level0x', 'level0x'].map((n) => new URL(n + '.ogg', MUSIC_BASE).href);
 
 // pygame's mixer has 8 channels; a sound is dropped when they are all busy
 const MAX_VOICES = 8;
