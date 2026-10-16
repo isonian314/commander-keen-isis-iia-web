@@ -12,7 +12,7 @@ This repo contains a vanilla Javascript port of the Python3 version of "Mystery 
 
 1. The original repo (with source code for the Python versions) can be found [here](https://github.com/isonian314/commander-keen-isis-iia-1.1). 
 2. The online playable Javascript web-port of the original *is this repo*.
-3. The enhanced (full skeleton of 16-levels, skeleton world map navigation) can be found [here](https://github.com/isonian314/commander-keen-isis-iia-1.1). 
+3. The enhanced online playable (full of 16-levels & new world map) can be found [here](https://github.com/isonian314/commander-keen-isis-iia-web-enhanced).
 
 # Full game documentation (new)
 
